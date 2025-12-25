@@ -21,7 +21,7 @@ class MastermindHost
 
     @max_turns.times do |turn|
       guess = possible_codes.sample
-      puts guess
+      # puts guess
       puts "\nTurn #{turn + 1}: Computer guesses : #{guess.join(', ')} "
 
       puts 'Enter feedback (exact, partial): '
