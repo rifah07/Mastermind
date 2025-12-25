@@ -6,10 +6,10 @@ require_relative 'mastermind'
 
 puts 'Choose one:-'
 puts 'Enter 1 if you want Computer to Host'
-puts 'Enter 2 if you want to be the Host and Computer guess randomly'
-puts "'Enter 3 if you want to be the Host and Computer guess according to Knuth's algorithm"
+puts 'Enter 2 if you want to be the Host and Computer to guess randomly'
+puts "Enter 3 if you want to be the Host and Computer to guess according to Knuth's algorithm"
 
-input = gets.chomp
+input = gets.chomp.to_i
 
 case input
 

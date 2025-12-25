@@ -65,4 +65,4 @@ class Mastermind
 end
 
 # run the game
-Mastermind.new.play
+# Mastermind.new.play

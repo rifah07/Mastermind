@@ -70,4 +70,4 @@ class MastermindHost
   end
 end
 
-MastermindHost.new.play
+# MastermindHost.new.play

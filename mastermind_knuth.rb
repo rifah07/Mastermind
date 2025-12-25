@@ -85,4 +85,4 @@ class MastermindKnuth
   end
 end
 
-MastermindKnuth.new.play
+# MastermindKnuth.new.play
