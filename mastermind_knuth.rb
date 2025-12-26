@@ -7,6 +7,7 @@ class MastermindKnuth
     @code_length = code_length
     @max_turns = max_turns
     @all_code = COLORS.repeated_permutation(@code_length).to_a
+    @possible_codes = @all_code.dup
     @current_guess = %w[red red blue blue] # Knuth's algorithm
   end
 
@@ -78,7 +79,17 @@ class MastermindKnuth
     best_guess = nil
     best_score = Float::INFINITY
 
-    @all_code.each do |code|
+    @all_code.each do |color|
+      partitions = Hash.new(0)
+      @possible_codes.each do |code|
+        feedback = check_guess(code, color)
+        partitions[feedback] += 1
+      end
+      worst_case = partitions.values.max
+      if worst_case < best_score
+        best_score = worst_case
+        best_guess = color
+      end
     end
 
     best_guess
