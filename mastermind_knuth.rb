@@ -36,7 +36,7 @@ class MastermindKnuth
       end
 
       # Filter possible codes based on feedback
-      possible_codes.select! do |code|
+      @possible_codes.select! do |code|
         check_guess(code, @current_guess) == [exact, partial]
       end
 
@@ -75,6 +75,8 @@ class MastermindKnuth
   end
 
   def next_guess
+    return @all_code.sample if @possible_codes.empty?
+
     # Minimax: choose guess that minimizes worst-case remaining possibilities
     best_guess = nil
     best_score = Float::INFINITY
@@ -85,11 +87,12 @@ class MastermindKnuth
         feedback = check_guess(code, color)
         partitions[feedback] += 1
       end
-      worst_case = partitions.values.max
-      if worst_case < best_score
-        best_score = worst_case
-        best_guess = color
-      end
+      worst_case = partitions.values.max || 0
+      next unless worst_case < best_score ||
+                  (worst_case == best_score && @possible_codes.include?(color))
+
+      best_score = worst_case
+      best_guess = color
     end
 
     best_guess

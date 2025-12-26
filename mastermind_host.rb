@@ -20,6 +20,11 @@ class MastermindHost
     possible_codes = @all_code.dup
 
     @max_turns.times do |turn|
+      if possible_codes.empty?
+        puts "\nNo possible codes remain. Computer failed to crack your code."
+        return
+      end
+
       guess = possible_codes.sample
       # puts guess
       puts "\nTurn #{turn + 1}: Computer guesses : #{guess.join(', ')} "
