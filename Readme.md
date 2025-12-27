@@ -223,15 +223,6 @@ bundle install
 
 # Run all tests
 bundle exec rspec
-
-# Run specific test file
-bundle exec rspec spec/mastermind_spec.rb
-
-# Run tests with documentation format
-bundle exec rspec --format documentation
-
-# Run tests with coverage (if configured)
-bundle exec rspec --format progress
 ```
 
 ### Test Coverage
@@ -273,11 +264,6 @@ RSpec.describe Mastermind do
 end
 ```
 
-### Running with Auto-reload
-
-```bash
-bundle exec rerun ruby app.rb
-```
 
 ### Code Structure
 
