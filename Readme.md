@@ -106,7 +106,8 @@ mastermind/
 ├── config/
 │   └── puma.rb             # Web server config
 ├── .github/workflows/
-│   └── ci.yml              # GitHub Actions CI
+│   ├── ci.yml              # GitHub Actions CI
+    └── cd.yml              # GitHub Actions CD
 ├── config.ru               # Rack configuration
 └── rGemfile                # Dependencies
 ```
