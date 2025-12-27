@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
 
-# ruby '3.4.4'
+ruby '~>3.2'
 
-gem 'rubocop', group: 'development', require: false
-gem 'sinatra'
 gem 'puma'
+gem 'sinatra'
 
 group :development do
   gem 'rerun'
+  gem 'rspec'
+  gem 'rubocop', require: false
 end

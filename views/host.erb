@@ -4,6 +4,9 @@
   <strong>Turn <%= @current_turn + 1 %> of <%= @max_turns %></strong>
   <p>Computer is trying to guess your secret code.</p>
   <p><strong>Strategy:</strong> <%= @mode == 'knuth' ? "Knuth's Algorithm (Optimal)" : "Random Guessing" %></p>
+  <% if @possible_count %>
+    <p><strong>Possible codes remaining:</strong> <%= @possible_count %></p>
+  <% end %>
 </div>
 
 <% if @current_turn == 0 %>
@@ -71,7 +74,17 @@
     <h2>Computer's Guess History:</h2>
     <% @history.reverse.each do |entry| %>
       <div class="history-item">
-        <strong>Turn <%= entry[:turn] %>:</strong> <%= entry[:guess].join(', ') %>
+        <%
+          # Handle both old (guess array) and new (guess_str string) format
+          if entry[:guess_str]
+            guess_display = entry[:guess_str].split('|').join(', ')
+          elsif entry[:guess]
+            guess_display = entry[:guess].is_a?(Array) ? entry[:guess].join(', ') : entry[:guess]
+          else
+            guess_display = "Unknown"
+          end
+        %>
+        <strong>Turn <%= entry[:turn] %>:</strong> <%= guess_display %>
         <br>
         <span style="color: #28a745;">✓ Exact: <%= entry[:exact] %></span> |
         <span style="color: #ffc107;">◐ Partial: <%= entry[:partial] %></span>

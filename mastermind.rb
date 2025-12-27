@@ -42,26 +42,30 @@ class Mastermind
   def check_guess(guess)
     exact = 0
     partial = 0
-    secret_code_copy = @secret_code.dup
 
-    # count exact matches
-    guess.each_with_index do |code, index|
+    secret_code_copy = @secret_code.dup
+    guess_copy = guess.dup
+
+    # exact matches
+    guess_copy.each_with_index do |code, index|
       next unless secret_code_copy[index] == code
 
       exact += 1
       secret_code_copy[index] = nil
-      guess[index] = nil
+      guess_copy[index] = nil
     end
 
-    # count partial matches
-    guess.compact.each do |code|
+    # partial matches
+    guess_copy.compact.each do |code|
       if secret_code_copy.include?(code)
         partial += 1
         secret_code_copy[secret_code_copy.index(code)] = nil
       end
     end
+
     [exact, partial]
   end
+
 end
 
 # run the game
