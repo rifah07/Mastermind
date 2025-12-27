@@ -1,0 +1,85 @@
+<h1>🎮 Mastermind - You Host</h1>
+
+<div class="info-box">
+  <strong>Turn <%= @current_turn + 1 %> of <%= @max_turns %></strong>
+  <p>Computer is trying to guess your secret code.</p>
+  <p><strong>Strategy:</strong> <%= @mode == 'knuth' ? "Knuth's Algorithm (Optimal)" : "Random Guessing" %></p>
+</div>
+
+<% if @current_turn == 0 %>
+  <div class="color-options">
+    <strong>Think of a secret code using these colors:</strong> red, green, blue, orange, yellow, purple
+    <br><br>
+    <em>Remember your code! The computer will try to guess it.</em>
+  </div>
+<% end %>
+
+<% if session[:result] %>
+  <div class="result <%= session[:result] %>">
+    <%= session[:message] %>
+  </div>
+
+  <form action="/reset" method="post">
+    <button type="submit" class="btn">Play Again</button>
+  </form>
+<% else %>
+  <div class="history-item" style="background: #fff3cd; border-color: #ffc107;">
+    <h3>Computer's Guess:</h3>
+    <p style="font-size: 1.3em; color: #856404; margin-top: 10px;">
+      <strong><%= @current_guess.join(', ') %></strong>
+    </p>
+  </div>
+
+  <form action="/play/host/<%= @mode %>/feedback" method="post">
+    <h3>Provide Feedback:</h3>
+    <div class="feedback-inputs">
+      <div>
+        <label for="exact">Exact Matches:</label>
+        <input
+          type="number"
+          id="exact"
+          name="exact"
+          min="0"
+          max="4"
+          value="0"
+          required
+        >
+        <small style="color: #666;">Correct color in correct position</small>
+      </div>
+
+      <div>
+        <label for="partial">Partial Matches:</label>
+        <input
+          type="number"
+          id="partial"
+          name="partial"
+          min="0"
+          max="4"
+          value="0"
+          required
+        >
+        <small style="color: #666;">Correct color in wrong position</small>
+      </div>
+    </div>
+
+    <button type="submit" class="btn">Submit Feedback</button>
+  </form>
+<% end %>
+
+<% if @history && @history.length > 0 %>
+  <div class="history">
+    <h2>Computer's Guess History:</h2>
+    <% @history.reverse.each do |entry| %>
+      <div class="history-item">
+        <strong>Turn <%= entry[:turn] %>:</strong> <%= entry[:guess].join(', ') %>
+        <br>
+        <span style="color: #28a745;">✓ Exact: <%= entry[:exact] %></span> |
+        <span style="color: #ffc107;">◐ Partial: <%= entry[:partial] %></span>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<form action="/reset" method="post" style="margin-top: 30px;">
+  <button type="submit" class="btn btn-secondary">Start Over</button>
+</form>

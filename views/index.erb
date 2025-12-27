@@ -1,0 +1,53 @@
+<h1>🎮 Mastermind Game</h1>
+
+<% if session[:error] %>
+  <div class="error">
+    <%= session[:error] %>
+    <% session.delete(:error) %>
+  </div>
+<% end %>
+
+<div class="info-box">
+  <p><strong>Welcome to Mastermind!</strong></p>
+  <p>A code-breaking game where you either guess the computer's secret code or create your own code for the computer to crack.</p>
+  <p><strong>Available colors:</strong> red, green, blue, orange, yellow, purple</p>
+</div>
+
+<h2>Choose Game Mode:</h2>
+
+<div class="game-modes">
+  <div class="mode-card">
+    <h3>🧠 You Guess</h3>
+    <p>Computer creates a secret code. Try to crack it in 12 turns!</p>
+    <form action="/start/player" method="post">
+      <button type="submit" class="btn">Play as Guesser</button>
+    </form>
+  </div>
+
+  <div class="mode-card">
+    <h3>🎲 Computer Guesses (Random)</h3>
+    <p>You create the code. Computer guesses randomly based on your feedback.</p>
+    <form action="/start/host/random" method="post">
+      <button type="submit" class="btn">Host (Random AI)</button>
+    </form>
+  </div>
+
+  <div class="mode-card">
+    <h3>🤖 Computer Guesses (Knuth's Algorithm)</h3>
+    <p>You create the code. Computer uses an optimal strategy to crack it efficiently.</p>
+    <form action="/start/host/knuth" method="post">
+      <button type="submit" class="btn">Host (Smart AI)</button>
+    </form>
+  </div>
+</div>
+
+<div class="info-box">
+  <h3>How to Play:</h3>
+  <ul style="margin-left: 20px; margin-top: 10px;">
+    <li><strong>Exact Match:</strong> Correct color in the correct position</li>
+    <li><strong>Partial Match:</strong> Correct color in the wrong position</li>
+    <li>Code length: 4 colors</li>
+    <li>Maximum turns: 12</li>
+    <li>Colors can repeat</li>
+  </ul>
+</div>

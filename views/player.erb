@@ -1,0 +1,64 @@
+<h1>🎮 Mastermind - You Guess</h1>
+
+<div class="info-box">
+  <strong>Turn <%= @current_turn + 1 %> of <%= @max_turns %></strong>
+  <p>Try to guess the secret code of 4 colors.</p>
+</div>
+
+<% if session[:error] %>
+  <div class="error">
+    <%= session[:error] %>
+    <% session.delete(:error) %>
+  </div>
+<% end %>
+
+<% if session[:result] %>
+  <div class="result <%= session[:result] %>">
+    <%= session[:message] %>
+  </div>
+
+  <% if session[:result] == 'lost' %>
+    <div class="info-box">
+      <strong>The secret code was:</strong> <%= @game_data[:secret_code].join(', ') %>
+    </div>
+  <% end %>
+
+  <form action="/reset" method="post">
+    <button type="submit" class="btn">Play Again</button>
+  </form>
+<% else %>
+  <div class="color-options">
+    <strong>Available colors:</strong> red, green, blue, orange, yellow, purple
+  </div>
+
+  <form action="/play/player/guess" method="post">
+    <label for="guess"><strong>Enter your guess (comma-separated):</strong></label>
+    <input
+      type="text"
+      id="guess"
+      name="guess"
+      placeholder="e.g., red, blue, green, yellow"
+      required
+      autofocus
+    >
+    <button type="submit" class="btn">Submit Guess</button>
+  </form>
+<% end %>
+
+<% if @history && @history.length > 0 %>
+  <div class="history">
+    <h2>Guess History:</h2>
+    <% @history.reverse.each do |entry| %>
+      <div class="history-item">
+        <strong>Turn <%= entry[:turn] %>:</strong> <%= entry[:guess].join(', ') %>
+        <br>
+        <span style="color: #28a745;">✓ Exact: <%= entry[:exact] %></span> |
+        <span style="color: #ffc107;">◐ Partial: <%= entry[:partial] %></span>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<form action="/reset" method="post" style="margin-top: 30px;">
+  <button type="submit" class="btn btn-secondary">Start Over</button>
+</form>
