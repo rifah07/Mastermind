@@ -127,43 +127,52 @@ end
 # Player mode - submit guess
 post '/play/player/guess' do
   game = get_game
+
+  # From dropdowns: params[:guess] is already an Array
   guess = params[:guess]
-          .split(',')
-          .map(&:strip)
-          .reject(&:empty?)
 
   game_data = session[:game]
   current_turn = game_data[:current_turn]
 
-  if guess.length != game_data[:code_length]
-    session[:error] = 'Insufficient guesses. Please enter exactly 4 colors.'
+  # Defensive validation
+  unless guess.is_a?(Array) && guess.length == game_data[:code_length]
+    session[:error] = "Please select exactly #{game_data[:code_length]} colors."
     redirect '/play/player'
     return
   end
 
+  # Store a clean copy BEFORE any logic touches it
+  clean_guess = guess.dup
+
   exact, partial = game.send(:check_guess, guess)
 
+  # Save history safely
   session[:history] ||= []
   session[:history] << {
     turn: current_turn + 1,
-    guess_str: guess.join('|'),  # Store as string
+    guess_str: clean_guess.join('|'),
     exact: exact,
     partial: partial
   }
 
+  # Advance turn
   game_data[:current_turn] = current_turn + 1
   session[:game] = game_data
 
+  # Win / lose conditions
   if exact == game_data[:code_length]
     session[:result] = 'won'
-    session[:message] = "Congratulations! You cracked the code in #{current_turn + 1} turns!"
+    session[:message] =
+      "Congratulations! You cracked the code in #{current_turn + 1} turns!"
   elsif current_turn + 1 >= game_data[:max_turns]
     session[:result] = 'lost'
-    session[:message] = "Sorry, you ran out of turns. The code was: #{game_data[:secret_code].join(', ')}"
+    session[:message] =
+      "Sorry, you ran out of turns. The code was: #{game_data[:secret_code].join(', ')}"
   end
 
   redirect '/play/player'
 end
+
 
 # Host mode - show computer's guess
 get '/play/host/:mode' do

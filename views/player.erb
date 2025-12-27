@@ -32,17 +32,20 @@
   </div>
 
   <form action="/play/player/guess" method="post">
-    <label for="guess"><strong>Enter your guess (comma-separated):</strong></label>
-    <input
-      type="text"
-      id="guess"
-      name="guess"
-      placeholder="e.g., red, blue, green, yellow"
-      required
-      autofocus
-    >
+    <h3>Select your guess:</h3>
+
+    <% 4.times do |i| %>
+      <select name="guess[]">
+        <% %w[red green blue orange yellow purple].each do |color| %>
+          <option value="<%= color %>"><%= color.capitalize %></option>
+        <% end %>
+      </select>
+    <% end %>
+
+    <br><br>
     <button type="submit" class="btn">Submit Guess</button>
   </form>
+
 <% end %>
 
 <% if @history && @history.length > 0 %>

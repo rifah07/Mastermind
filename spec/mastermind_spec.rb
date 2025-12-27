@@ -1,3 +1,5 @@
+require_relative 'spec_helper'
+
 RSpec.describe Mastermind do
   let(:game) { Mastermind.new(4, 12) }
 
