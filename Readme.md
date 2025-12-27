@@ -2,7 +2,22 @@
 
 A web-based implementation of the classic Mastermind code-breaking game built with Ruby and Sinatra.
 
-## 🎯 Game Modes
+## 📋 Table of Contents
+
+- [Game Modes](#-game-modes)
+- [Features](#-features)
+- [Quick Start](#-quick-start)
+- [How to Play](#-how-to-play)
+- [Project Structure](#️-project-structure)
+- [Knuth's Algorithm](#-knuths-algorithm-explained)
+- [Code Highlights](#-code-highlights)
+- [Development & Testing](#-development--testing)
+- [CI/CD Pipeline](#-cicd-pipeline)
+- [Deployment](#-manual-deployment-to-render)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
 
 ### 1. You Guess (Player Mode)
 - Computer generates a secret code
@@ -99,39 +114,50 @@ The Knuth mode implements Donald Knuth's five-guess algorithm:
 
 ## 🚀 CI/CD Pipeline
 
-This project uses GitHub Actions for automated testing and deployment.
+This project includes **complete CI/CD automation** with GitHub Actions.
+
+### ✅ What's Included
+
+| Workflow | File | Purpose | Trigger        |
+|----------|------|---------|----------------|
+| **CI** (Continuous Integration) | `.github/workflows/ci.yml` | Run tests automatically | Every push/PR  |
+| **CD** (Continuous Deployment) | `.github/workflows/cd.yml` | Deploy to Render automatically | Push to master |
 
 ### Continuous Integration (CI)
 
 The CI pipeline runs on every push and pull request:
 
-```yaml
-# .github/workflows/ci.yml
-- Runs RSpec tests on Ruby 3.2 and 3.3
+**Tests on multiple Ruby versions:**
+- ✅ Ruby 3.2
+- ✅ Ruby 3.3
+
+**What it does:**
+- Installs dependencies (`bundle install`)
+- Runs RSpec test suite (`bundle exec rspec`)
 - Validates Ruby syntax
-- Runs linting (if configured)
-- Provides fast feedback on code quality
-```
+- Optional: Runs Rubocop linting
 
 **Workflow triggers:**
-- Push to `main` or `develop` branches
-- Pull requests to `main` or `develop` branches
+- Push to `master` or `develop` branches
+- Pull requests to `master` or `develop` branches
+
+**File location:** `.github/workflows/ci.yml`
 
 ### Continuous Deployment (CD)
 
 The CD pipeline automatically deploys to Render on main branch updates:
 
-```yaml
-# .github/workflows/cd.yml
+**What it does:**
 - Triggers Render deployment via API
-- Waits for deployment completion
-- Performs health check on live site
+- Waits for deployment to complete
+- Performs health check on live site (https://mastermind-06j2.onrender.com/)
 - Reports deployment status
-```
 
 **Workflow triggers:**
-- Push to `main` branch
+- Push to `master` branch (automatic)
 - Manual trigger via GitHub Actions UI
+
+**File location:** `.github/workflows/cd.yml`
 
 ### Setting Up CI/CD
 
@@ -175,9 +201,7 @@ Code Push → GitHub → CI Tests → ✅ Pass → CD Trigger → Render Deploy 
 2. Sign up at [render.com](https://render.com)
 3. Create a new Web Service
 4. Connect your GitHub repository
-5. Render auto-detects configuration from `render.yaml`
 
-See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed instructions.
 
 ## 🛠️ Technologies Used
 
@@ -282,7 +306,7 @@ This project is open source and available under the MIT License.
 - [Knuth's Algorithm Paper](https://www.cs.uni.edu/~wallingf/teaching/cs3530/resources/knuth-mastermind.pdf)
 - [Sinatra Documentation](http://sinatrarb.com/)
 
-## 👨‍💻 Author
+## 📚 Author
 
 Created with ❤️ by Rifah Sajida Deya
 
