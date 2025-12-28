@@ -109,7 +109,7 @@ mastermind/
 │   ├── ci.yml              # GitHub Actions CI
     └── cd.yml              # GitHub Actions CD
 ├── config.ru               # Rack configuration
-└── rGemfile                # Dependencies
+└── Gemfile                # Dependencies
 ```
 
 ---
